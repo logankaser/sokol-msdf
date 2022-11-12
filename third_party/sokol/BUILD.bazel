@@ -1,0 +1,20 @@
+# Sokol is a stb style / "single header" library
+# To use, follow the instructions at the top of each header
+# on how to define the impl and what options are available.
+
+cc_library(
+    name = "sokol",
+    hdrs = [
+        "sokol_app.h",
+        "sokol_args.h",
+        "sokol_fetch.h",
+        "sokol_gfx.h",
+        "sokol_glue.h",
+        "sokol_time.h",
+        "util/sokol_color.h",
+        "util/sokol_debugtext.h",
+        "util/sokol_shape.h",
+    ],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)

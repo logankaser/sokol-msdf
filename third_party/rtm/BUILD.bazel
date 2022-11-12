@@ -1,0 +1,6 @@
+cc_library(
+    name = "rtm",
+    hdrs = glob(["includes/**/*.h"]),
+    includes = ["includes"],
+    visibility = ["//visibility:public"],
+)
