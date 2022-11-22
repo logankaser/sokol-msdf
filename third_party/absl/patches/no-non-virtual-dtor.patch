@@ -1,0 +1,12 @@
+diff --git a/absl/copts/GENERATED_copts.bzl b/absl/copts/GENERATED_copts.bzl
+index a6efc98..d95960e 100644
+--- a/absl/copts/GENERATED_copts.bzl
++++ b/absl/copts/GENERATED_copts.bzl
+@@ -49,6 +49,7 @@ ABSL_GCC_FLAGS = [
+     "-Wvla",
+     "-Wwrite-strings",
+     "-DNOMINMAX",
++    "-Wno-non-virtual-dtor",
+ ]
+
+ ABSL_GCC_TEST_FLAGS = [

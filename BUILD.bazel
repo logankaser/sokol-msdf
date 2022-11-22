@@ -1,7 +1,18 @@
-load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "objc_library")
+
+objc_library(
+    name = "sokol_osx",
+    srcs = ["sokol_osx.m"],
+    hdrs = ["sokol.h"],
+    deps = ["@sokol"],
+    sdk_frameworks = ["Cocoa", "QuartzCore", "OpenGL"],
+)
 
 cc_binary(
     name = "demo",
-    srcs = ["main.c"],
-    deps = ["@rtm", "@sokol"],
+    srcs = [
+        "main.c",
+        "text.h",
+    ],
+    deps = ["@rtm", ":sokol_osx"],
 )

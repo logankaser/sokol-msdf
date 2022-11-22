@@ -1,0 +1,1423 @@
+diff -Naur a/absl/algorithm/BUILD.bazel b/absl/algorithm/BUILD.bazel
+--- a/absl/algorithm/BUILD.bazel
++++ b/absl/algorithm/BUILD.bazel
+@@ -29,6 +29,7 @@
+     name = "algorithm",
+     hdrs = ["algorithm.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -67,6 +68,7 @@
+         "container.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":algorithm",
+diff -Naur a/absl/base/BUILD.bazel b/absl/base/BUILD.bazel
+--- a/absl/base/BUILD.bazel
++++ b/absl/base/BUILD.bazel
+@@ -29,6 +29,7 @@
+     name = "atomic_hook",
+     hdrs = ["internal/atomic_hook.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -43,6 +44,7 @@
+     name = "errno_saver",
+     hdrs = ["internal/errno_saver.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -55,6 +57,7 @@
+     srcs = ["log_severity.cc"],
+     hdrs = ["log_severity.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":config",
+@@ -67,6 +70,7 @@
+     srcs = ["internal/raw_logging.cc"],
+     hdrs = ["internal/raw_logging.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -91,6 +95,7 @@
+     ],
+     hdrs = ["internal/spinlock_wait.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl/base:__pkg__",
+@@ -110,6 +115,7 @@
+         "policy_checks.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+ )
+ 
+@@ -122,6 +128,7 @@
+         "dynamic_annotations.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":config",
+@@ -143,6 +150,7 @@
+         "thread_annotations.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":config",
+@@ -161,6 +169,7 @@
+     copts = ABSL_DEFAULT_COPTS + select({
+         "//conditions:default": [],
+     }),
++    include_prefix = package_name(),
+     linkopts = select({
+         "//absl:msvc_compiler": [],
+         "//absl:clang-cl_compiler": [],
+@@ -190,6 +199,7 @@
+         "internal/scheduling_mode.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -222,6 +232,7 @@
+         "internal/unscaledcycleclock.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = select({
+         "//absl:msvc_compiler": [
+             "-DEFAULTLIB:advapi32.lib",
+@@ -251,6 +262,7 @@
+     srcs = ["internal/atomic_hook_test_helper.cc"],
+     hdrs = ["internal/atomic_hook_test_helper.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":atomic_hook",
+@@ -292,6 +304,7 @@
+     srcs = ["internal/throw_delegate.cc"],
+     hdrs = ["internal/throw_delegate.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -332,6 +345,7 @@
+     testonly = 1,
+     hdrs = ["internal/exception_testing.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -345,6 +359,7 @@
+ cc_library(
+     name = "pretty_function",
+     hdrs = ["internal/pretty_function.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//absl:__subpackages__"],
+ )
+@@ -355,6 +370,7 @@
+     srcs = ["internal/exception_safety_testing.cc"],
+     hdrs = ["internal/exception_safety_testing.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":config",
+@@ -417,6 +433,7 @@
+     testonly = 1,
+     srcs = ["spinlock_test_common.cc"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":base",
+@@ -453,6 +470,7 @@
+     testonly = 1,
+     srcs = ["internal/spinlock_benchmark.cc"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl/base:__pkg__",
+@@ -486,6 +504,7 @@
+         "internal/unaligned_access.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":base",
+@@ -607,6 +626,7 @@
+     testonly = 1,
+     srcs = ["internal/scoped_set_env.cc"],
+     hdrs = ["internal/scoped_set_env.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -649,6 +669,7 @@
+     srcs = ["internal/strerror.cc"],
+     hdrs = ["internal/strerror.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -691,6 +712,7 @@
+     name = "fast_type_id",
+     hdrs = ["internal/fast_type_id.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -716,6 +738,7 @@
+     name = "prefetch",
+     hdrs = ["internal/prefetch.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+diff -Naur a/absl/cleanup/BUILD.bazel b/absl/cleanup/BUILD.bazel
+--- a/absl/cleanup/BUILD.bazel
++++ b/absl/cleanup/BUILD.bazel
+@@ -27,6 +27,7 @@
+     name = "cleanup_internal",
+     hdrs = ["internal/cleanup.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:base_internal",
+@@ -41,6 +42,7 @@
+         "cleanup.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":cleanup_internal",
+diff -Naur a/absl/container/BUILD.bazel b/absl/container/BUILD.bazel
+--- a/absl/container/BUILD.bazel
++++ b/absl/container/BUILD.bazel
+@@ -29,6 +29,7 @@
+     name = "compressed_tuple",
+     hdrs = ["internal/compressed_tuple.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/utility",
+@@ -55,6 +56,7 @@
+     name = "fixed_array",
+     hdrs = ["fixed_array.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":compressed_tuple",
+@@ -112,6 +114,7 @@
+     name = "inlined_vector_internal",
+     hdrs = ["internal/inlined_vector.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":compressed_tuple",
+@@ -126,6 +129,7 @@
+     name = "inlined_vector",
+     hdrs = ["inlined_vector.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":inlined_vector_internal",
+@@ -141,6 +145,7 @@
+     testonly = 1,
+     hdrs = ["internal/counting_allocator.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = ["//absl/base:config"],
+@@ -199,6 +204,7 @@
+     srcs = ["internal/test_instance_tracker.cc"],
+     hdrs = ["internal/test_instance_tracker.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -228,6 +234,7 @@
+     name = "flat_hash_map",
+     hdrs = ["flat_hash_map.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":container_memory",
+@@ -262,6 +269,7 @@
+     name = "flat_hash_set",
+     hdrs = ["flat_hash_set.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":container_memory",
+@@ -297,6 +305,7 @@
+     name = "node_hash_map",
+     hdrs = ["node_hash_map.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":container_memory",
+@@ -331,6 +340,7 @@
+     name = "node_hash_set",
+     hdrs = ["node_hash_set.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hash_function_defaults",
+@@ -362,6 +372,7 @@
+     name = "container_memory",
+     hdrs = ["internal/container_memory.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -389,6 +400,7 @@
+     name = "hash_function_defaults",
+     hdrs = ["internal/hash_function_defaults.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -421,6 +433,7 @@
+     srcs = ["internal/hash_generator_testing.cc"],
+     hdrs = ["internal/hash_generator_testing.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hash_policy_testing",
+@@ -435,6 +448,7 @@
+     testonly = 1,
+     hdrs = ["internal/hash_policy_testing.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/hash",
+@@ -457,6 +471,7 @@
+     name = "hash_policy_traits",
+     hdrs = ["internal/hash_policy_traits.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = ["//absl/meta:type_traits"],
+ )
+@@ -476,6 +491,7 @@
+     name = "hashtable_debug",
+     hdrs = ["internal/hashtable_debug.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hashtable_debug_hooks",
+@@ -486,6 +502,7 @@
+     name = "hashtable_debug_hooks",
+     hdrs = ["internal/hashtable_debug_hooks.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -500,6 +517,7 @@
+     ],
+     hdrs = ["internal/hashtablez_sampler.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base",
+@@ -537,6 +555,7 @@
+     name = "node_slot_policy",
+     hdrs = ["internal/node_slot_policy.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = ["//absl/base:config"],
+ )
+@@ -557,6 +576,7 @@
+     name = "raw_hash_map",
+     hdrs = ["internal/raw_hash_map.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":container_memory",
+@@ -569,6 +589,7 @@
+     name = "common",
+     hdrs = ["internal/common.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/meta:type_traits",
+@@ -581,6 +602,7 @@
+     srcs = ["internal/raw_hash_set.cc"],
+     hdrs = ["internal/raw_hash_set.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":common",
+@@ -679,6 +701,7 @@
+     name = "layout",
+     hdrs = ["internal/layout.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -729,6 +752,7 @@
+     testonly = 1,
+     hdrs = ["internal/tracked.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -740,6 +764,7 @@
+     testonly = 1,
+     hdrs = ["internal/unordered_map_constructor_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hash_generator_testing",
+@@ -753,6 +778,7 @@
+     testonly = 1,
+     hdrs = ["internal/unordered_map_lookup_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hash_generator_testing",
+@@ -766,6 +792,7 @@
+     testonly = 1,
+     hdrs = ["internal/unordered_map_modifiers_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hash_generator_testing",
+@@ -779,6 +806,7 @@
+     testonly = 1,
+     hdrs = ["internal/unordered_set_constructor_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hash_generator_testing",
+@@ -793,6 +821,7 @@
+     testonly = 1,
+     hdrs = ["internal/unordered_set_members_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/meta:type_traits",
+@@ -805,6 +834,7 @@
+     testonly = 1,
+     hdrs = ["internal/unordered_map_members_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/meta:type_traits",
+@@ -817,6 +847,7 @@
+     testonly = 1,
+     hdrs = ["internal/unordered_set_lookup_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hash_generator_testing",
+@@ -830,6 +861,7 @@
+     testonly = 1,
+     hdrs = ["internal/unordered_set_modifiers_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":hash_generator_testing",
+@@ -895,6 +927,7 @@
+         "btree_set.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:public"],
+     deps = [
+@@ -919,6 +952,7 @@
+     testonly = 1,
+     hdrs = ["btree_test.h"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+diff -Naur a/absl/debugging/BUILD.bazel b/absl/debugging/BUILD.bazel
+--- a/absl/debugging/BUILD.bazel
++++ b/absl/debugging/BUILD.bazel
+@@ -44,6 +44,7 @@
+     ],
+     hdrs = ["stacktrace.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":debugging_internal",
+@@ -67,6 +68,7 @@
+         "symbolize.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS + select({
+         "//absl:msvc_compiler": ["-DEFAULTLIB:dbghelp.lib"],
+         "//absl:clang-cl_compiler": ["-DEFAULTLIB:dbghelp.lib"],
+@@ -120,6 +122,7 @@
+         "internal/examine_stack.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+@@ -136,6 +139,7 @@
+     srcs = ["failure_signal_handler.cc"],
+     hdrs = ["failure_signal_handler.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":examine_stack",
+@@ -180,6 +184,7 @@
+         "internal/vdso_support.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+@@ -196,6 +201,7 @@
+     srcs = ["internal/demangle.cc"],
+     hdrs = ["internal/demangle.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+@@ -226,6 +232,7 @@
+     srcs = ["leak_check.cc"],
+     hdrs = ["leak_check.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -270,6 +277,7 @@
+     srcs = ["internal/stack_consumption.cc"],
+     hdrs = ["internal/stack_consumption.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+diff -Naur a/absl/flags/BUILD.bazel b/absl/flags/BUILD.bazel
+--- a/absl/flags/BUILD.bazel
++++ b/absl/flags/BUILD.bazel
+@@ -31,6 +31,7 @@
+         "internal/path_util.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl/flags:__pkg__",
+@@ -50,6 +51,7 @@
+         "internal/program_name.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl/flags:__pkg__",
+@@ -73,6 +75,7 @@
+         "usage_config.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":path_util",
+@@ -93,6 +96,7 @@
+         "marshalling.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -113,6 +117,7 @@
+         "internal/commandlineflag.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//visibility:private",
+@@ -132,6 +137,7 @@
+         "commandlineflag.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":commandlineflag_internal",
+@@ -151,6 +157,7 @@
+         "internal/private_handle_accessor.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl/flags:__pkg__",
+@@ -173,6 +180,7 @@
+         "reflection.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":commandlineflag",
+@@ -198,6 +206,7 @@
+     ],
+     copts = ABSL_DEFAULT_COPTS,
+     linkopts = ABSL_DEFAULT_LINKOPTS,
++    include_prefix = package_name(),
+     visibility = ["//absl/base:__subpackages__"],
+     deps = [
+         ":commandlineflag",
+@@ -228,6 +237,7 @@
+         "flag.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":config",
+@@ -249,6 +259,7 @@
+         "internal/usage.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl/flags:__pkg__",
+@@ -278,6 +289,7 @@
+         "usage.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":usage_internal",
+@@ -296,6 +308,7 @@
+         "parse.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":commandlineflag",
+diff -Naur a/absl/functional/BUILD.bazel b/absl/functional/BUILD.bazel
+--- a/absl/functional/BUILD.bazel
++++ b/absl/functional/BUILD.bazel
+@@ -30,6 +30,7 @@
+     srcs = ["internal/any_invocable.h"],
+     hdrs = ["any_invocable.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:base_internal",
+@@ -64,6 +65,7 @@
+     srcs = ["internal/front_binder.h"],
+     hdrs = ["bind_front.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:base_internal",
+@@ -90,6 +92,7 @@
+     srcs = ["internal/function_ref.h"],
+     hdrs = ["function_ref.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:base_internal",
+diff -Naur a/absl/hash/BUILD.bazel b/absl/hash/BUILD.bazel
+--- a/absl/hash/BUILD.bazel
++++ b/absl/hash/BUILD.bazel
+@@ -33,6 +33,7 @@
+     ],
+     hdrs = ["hash.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":city",
+@@ -55,6 +56,7 @@
+     name = "hash_testing",
+     testonly = 1,
+     hdrs = ["hash_testing.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":spy_hash_state",
+@@ -112,6 +114,7 @@
+     testonly = 1,
+     hdrs = ["internal/spy_hash_state.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+@@ -128,6 +131,7 @@
+         "internal/city.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -152,6 +156,7 @@
+     srcs = ["internal/low_level_hash.cc"],
+     hdrs = ["internal/low_level_hash.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+diff -Naur a/absl/memory/BUILD.bazel b/absl/memory/BUILD.bazel
+--- a/absl/memory/BUILD.bazel
++++ b/absl/memory/BUILD.bazel
+@@ -32,6 +32,7 @@
+     defines = select({
+         "//conditions:default": [],
+     }),
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:core_headers",
+diff -Naur a/absl/meta/BUILD.bazel b/absl/meta/BUILD.bazel
+--- a/absl/meta/BUILD.bazel
++++ b/absl/meta/BUILD.bazel
+@@ -29,6 +29,7 @@
+     name = "type_traits",
+     hdrs = ["type_traits.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+diff -Naur a/absl/numeric/BUILD.bazel b/absl/numeric/BUILD.bazel
+--- a/absl/numeric/BUILD.bazel
++++ b/absl/numeric/BUILD.bazel
+@@ -30,6 +30,7 @@
+         "internal/bits.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -75,6 +76,7 @@
+     ],
+     hdrs = ["int128.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":bits",
+@@ -121,6 +123,7 @@
+         "internal/representation.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+diff -Naur a/absl/profiling/BUILD.bazel b/absl/profiling/BUILD.bazel
+--- a/absl/profiling/BUILD.bazel
++++ b/absl/profiling/BUILD.bazel
+@@ -27,6 +27,7 @@
+     name = "sample_recorder",
+     hdrs = ["internal/sample_recorder.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -60,6 +61,7 @@
+     name = "exponential_biased",
+     srcs = ["internal/exponential_biased.cc"],
+     hdrs = ["internal/exponential_biased.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -89,6 +91,7 @@
+     srcs = ["internal/periodic_sampler.cc"],
+     hdrs = ["internal/periodic_sampler.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+diff -Naur a/absl/random/BUILD.bazel b/absl/random/BUILD.bazel
+--- a/absl/random/BUILD.bazel
++++ b/absl/random/BUILD.bazel
+@@ -31,6 +31,7 @@
+     name = "random",
+     hdrs = ["random.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":distributions",
+@@ -62,6 +63,7 @@
+         "zipf_distribution.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:base_internal",
+@@ -86,6 +88,7 @@
+     srcs = ["seed_gen_exception.cc"],
+     hdrs = ["seed_gen_exception.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = ["//absl/base:config"],
+ )
+@@ -97,6 +100,7 @@
+         "seed_sequences.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":seed_gen_exception",
+@@ -112,6 +116,7 @@
+     name = "bit_gen_ref",
+     hdrs = ["bit_gen_ref.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":random",
+@@ -127,6 +132,7 @@
+     name = "mock_distributions",
+     testonly = 1,
+     hdrs = ["mock_distributions.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":distributions",
+@@ -143,6 +149,7 @@
+     hdrs = [
+         "mocking_bit_gen.h",
+     ],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":distributions",
+diff -Naur a/absl/random/internal/BUILD.bazel b/absl/random/internal/BUILD.bazel
+--- a/absl/random/internal/BUILD.bazel
++++ b/absl/random/internal/BUILD.bazel
+@@ -34,6 +34,7 @@
+     name = "traits",
+     hdrs = ["traits.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -46,6 +47,7 @@
+     name = "distribution_caller",
+     hdrs = ["distribution_caller.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -60,6 +62,7 @@
+         "fast_uniform_bits.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":traits",
+@@ -77,6 +80,7 @@
+         "seed_material.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS + select({
+         "//absl:msvc_compiler": ["-DEFAULTLIB:bcrypt.lib"],
+         "//absl:clang-cl_compiler": ["-DEFAULTLIB:bcrypt.lib"],
+@@ -102,6 +106,7 @@
+         "pool_urbg.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = select({
+         "//absl:msvc_compiler": [],
+         "//absl:clang-cl_compiler": [],
+@@ -129,6 +134,7 @@
+         "explicit_seed_seq.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -143,6 +149,7 @@
+         "sequence_urbg.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = ["//absl/base:config"],
+ )
+@@ -153,6 +160,7 @@
+         "salted_seed_seq.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":seed_material",
+@@ -167,6 +175,7 @@
+     name = "iostream_state_saver",
+     hdrs = ["iostream_state_saver.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/meta:type_traits",
+@@ -180,6 +189,7 @@
+         "generate_real.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":fastmath",
+@@ -195,6 +205,7 @@
+         "fastmath.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = ["//absl/numeric:bits"],
+ )
+@@ -203,6 +214,7 @@
+     name = "wide_multiply",
+     hdrs = ["wide_multiply.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":traits",
+@@ -216,6 +228,7 @@
+     name = "nonsecure_base",
+     hdrs = ["nonsecure_base.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":pool_urbg",
+@@ -232,6 +245,7 @@
+     name = "pcg_engine",
+     hdrs = ["pcg_engine.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":fastmath",
+@@ -247,6 +261,7 @@
+     name = "randen_engine",
+     hdrs = ["randen_engine.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":iostream_state_saver",
+@@ -265,6 +280,7 @@
+         "randen_traits.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     textual_hdrs = [
+         "platform.h",
+@@ -281,6 +297,7 @@
+         "randen.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":platform",
+@@ -295,6 +312,7 @@
+     srcs = ["randen_slow.cc"],
+     hdrs = ["randen_slow.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":platform",
+@@ -317,6 +335,7 @@
+         "randen_hwaes.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":platform",
+@@ -337,6 +356,7 @@
+         "//absl:clang-cl_compiler": [],
+         "//conditions:default": ["-Wno-pass-failed"],
+     }),
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":platform",
+@@ -370,6 +390,7 @@
+         "distribution_test_util.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -502,6 +523,7 @@
+ cc_library(
+     name = "mock_helpers",
+     hdrs = ["mock_helpers.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:fast_type_id",
+@@ -513,6 +535,7 @@
+     name = "mock_overload_set",
+     testonly = 1,
+     hdrs = ["mock_overload_set.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":mock_helpers",
+@@ -661,6 +684,7 @@
+ cc_library(
+     name = "nanobenchmark",
+     srcs = ["nanobenchmark.cc"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     textual_hdrs = ["nanobenchmark.h"],
+     deps = [
+@@ -676,6 +700,7 @@
+     name = "uniform_helper",
+     hdrs = ["uniform_helper.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":traits",
+diff -Naur a/absl/status/BUILD.bazel b/absl/status/BUILD.bazel
+--- a/absl/status/BUILD.bazel
++++ b/absl/status/BUILD.bazel
+@@ -40,6 +40,7 @@
+         "status_payload_printer.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:atomic_hook",
+@@ -78,6 +79,7 @@
+         "statusor.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":status",
+diff -Naur a/absl/strings/BUILD.bazel b/absl/strings/BUILD.bazel
+--- a/absl/strings/BUILD.bazel
++++ b/absl/strings/BUILD.bazel
+@@ -66,6 +66,7 @@
+         "substitute.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":internal",
+@@ -97,6 +98,7 @@
+         "internal/utf8.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -291,6 +293,7 @@
+         "internal/cord_rep_ring_reader.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//visibility:private",
+@@ -395,6 +398,7 @@
+     name = "cordz_update_tracker",
+     hdrs = ["internal/cordz_update_tracker.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -427,6 +431,7 @@
+         "cord_buffer.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":cord_internal",
+@@ -458,6 +463,7 @@
+     srcs = ["internal/cordz_handle.cc"],
+     hdrs = ["internal/cordz_handle.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -475,6 +481,7 @@
+     srcs = ["internal/cordz_info.cc"],
+     hdrs = ["internal/cordz_info.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -500,6 +507,7 @@
+     name = "cordz_update_scope",
+     hdrs = ["internal/cordz_update_scope.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -533,6 +541,7 @@
+     srcs = ["internal/cordz_sample_token.cc"],
+     hdrs = ["internal/cordz_sample_token.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -549,6 +558,7 @@
+     srcs = ["internal/cordz_functions.cc"],
+     hdrs = ["internal/cordz_functions.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -565,6 +575,7 @@
+     name = "cordz_statistics",
+     hdrs = ["internal/cordz_statistics.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -675,6 +686,7 @@
+         "cord_test_helpers.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":cord",
+@@ -689,6 +701,7 @@
+     testonly = 1,
+     hdrs = ["internal/cord_rep_test_util.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":cord_internal",
+@@ -703,6 +716,7 @@
+     testonly = 1,
+     hdrs = ["cordz_test_helpers.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":cord",
+@@ -1112,6 +1126,7 @@
+         "str_format.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":str_format_internal",
+@@ -1138,6 +1153,7 @@
+         "internal/str_format/parser.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+@@ -1263,6 +1279,7 @@
+     testonly = True,
+     srcs = ["internal/pow10_helper.cc"],
+     hdrs = ["internal/pow10_helper.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = ["//absl/base:config"],
+diff -Naur a/absl/synchronization/BUILD.bazel b/absl/synchronization/BUILD.bazel
+--- a/absl/synchronization/BUILD.bazel
++++ b/absl/synchronization/BUILD.bazel
+@@ -37,6 +37,7 @@
+     copts = ABSL_DEFAULT_COPTS + select({
+         "//conditions:default": [],
+     }),
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -55,6 +56,7 @@
+     name = "kernel_timeout_internal",
+     hdrs = ["internal/kernel_timeout.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl/synchronization:__pkg__",
+@@ -88,6 +90,7 @@
+         "notification.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = select({
+         "//absl:msvc_compiler": [],
+         "//absl:clang-cl_compiler": [],
+@@ -193,6 +196,7 @@
+     name = "thread_pool",
+     testonly = 1,
+     hdrs = ["internal/thread_pool.h"],
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl:__subpackages__",
+@@ -228,6 +232,7 @@
+     testonly = 1,
+     srcs = ["mutex_benchmark.cc"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+         "//absl/synchronization:__pkg__",
+@@ -271,6 +276,7 @@
+     testonly = 1,
+     srcs = ["internal/per_thread_sem_test.cc"],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":synchronization",
+diff -Naur a/absl/time/BUILD.bazel b/absl/time/BUILD.bazel
+--- a/absl/time/BUILD.bazel
++++ b/absl/time/BUILD.bazel
+@@ -42,6 +42,7 @@
+         "time.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base",
+@@ -63,6 +64,7 @@
+     ],
+     hdrs = ["internal/test_util.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+diff -Naur a/absl/time/internal/cctz/BUILD.bazel b/absl/time/internal/cctz/BUILD.bazel
+--- a/absl/time/internal/cctz/BUILD.bazel
++++ b/absl/time/internal/cctz/BUILD.bazel
+@@ -43,6 +43,7 @@
+     hdrs = [
+         "include/cctz/civil_time.h",
+     ],
++    include_prefix = package_name(),
+     textual_hdrs = ["include/cctz/civil_time_detail.h"],
+     visibility = ["//visibility:public"],
+     deps = ["//absl/base:config"],
+@@ -72,6 +73,7 @@
+         "include/cctz/time_zone.h",
+         "include/cctz/zone_info_source.h",
+     ],
++    include_prefix = package_name(),
+     linkopts = select({
+         ":osx": [
+             "-framework Foundation",
+diff -Naur a/absl/types/BUILD.bazel b/absl/types/BUILD.bazel
+--- a/absl/types/BUILD.bazel
++++ b/absl/types/BUILD.bazel
+@@ -28,6 +28,7 @@
+     name = "any",
+     hdrs = ["any.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":bad_any_cast",
+@@ -43,6 +44,7 @@
+     name = "bad_any_cast",
+     hdrs = ["bad_any_cast.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":bad_any_cast_impl",
+@@ -57,6 +59,7 @@
+         "bad_any_cast.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:private"],
+     deps = [
+@@ -105,6 +108,7 @@
+         "span.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/algorithm",
+@@ -138,6 +142,7 @@
+     srcs = ["internal/optional.h"],
+     hdrs = ["optional.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":bad_optional_access",
+@@ -155,6 +160,7 @@
+     srcs = ["bad_optional_access.cc"],
+     hdrs = ["bad_optional_access.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -167,6 +173,7 @@
+     srcs = ["bad_variant_access.cc"],
+     hdrs = ["bad_variant_access.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:config",
+@@ -220,6 +227,7 @@
+         "internal/transform_args.h",
+     ],
+     copts = ABSL_TEST_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/algorithm:container",
+@@ -250,6 +258,7 @@
+     srcs = ["internal/variant.h"],
+     hdrs = ["variant.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         ":bad_variant_access",
+@@ -314,6 +323,7 @@
+     name = "compare",
+     hdrs = ["compare.h"],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:core_headers",
+diff -Naur a/absl/utility/BUILD.bazel b/absl/utility/BUILD.bazel
+--- a/absl/utility/BUILD.bazel
++++ b/absl/utility/BUILD.bazel
+@@ -31,6 +31,7 @@
+         "utility.h",
+     ],
+     copts = ABSL_DEFAULT_COPTS,
++    include_prefix = package_name(),
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
+         "//absl/base:base_internal",
